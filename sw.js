@@ -1,7 +1,7 @@
 // Card Scanner service worker
 // 1) keeps the app working offline (after the first visit)
 // 2) serves contact.vcf?d=… so iPhone opens the "Create New Contact" sheet
-const VERSION = "cardscan-v1";
+const VERSION = "cardscan-v2";
 const SHELL = ["./", "index.html", "app.js", "parse.js", "manifest.json", "icon-180.png", "icon-192.png", "icon-512.png"];
 
 self.addEventListener("install", e => {

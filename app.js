@@ -45,15 +45,13 @@
         const p = ls.get(PIN_KEY, null);
         if (p && await hash(entry, p.salt) === p.hash) unlock();
         else { shake(); say("Wrong code, try again", true); }
-      } else if (pinMode === "set1") {
-        firstPin = entry; pinMode = "set2"; say("Enter it once more");
       } else {
-        if (entry !== firstPin) { shake(); pinMode = "set1"; say("Codes didn't match — try again", true); }
-        else {
-          const salt = [...crypto.getRandomValues(new Uint8Array(12))].map(b => b.toString(16).padStart(2, "0")).join("");
-          ls.set(PIN_KEY, { salt, hash: await hash(entry, salt) });
-          unlock();
-        }
+        // choose the code once — no "enter it again" step
+        const salt = [...crypto.getRandomValues(new Uint8Array(12))].map(b => b.toString(16).padStart(2, "0")).join("");
+        ls.set(PIN_KEY, { salt, hash: await hash(entry, salt) });
+        say("Code saved");
+        await sleep(500);
+        unlock();
       }
     } finally { entry = ""; paint(); busy = false; }
   }
